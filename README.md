@@ -1,6 +1,6 @@
 # Smartport
 
-An example Fitbit app that tells you the best connection from work to home and viceversa.
+An example Fitbit app that tells you the best connection from work to home and viceversa (it uses the https://transport.opendata.ch open API, so I guess it's only for people living in Switzerland for now :) )
 
 ## Considerations
 

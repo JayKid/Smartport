@@ -1,0 +1,18 @@
+<svg class="background">
+  <svg id="select_way">
+    <use id="button_go_home" href="#square-button" y="20%" height="30%" fill="fb-red" display="none">
+      <set href="#text" attributeName="text-buffer" to="Go home" />
+    </use>
+    <use id="button_go_work" href="#square-button" y="$" height="30%" fill="fb-red" display="none">
+      <set href="#text" attributeName="text-buffer" to="Go to work" />
+    </use>
+  </svg>
+  <svg id="result_screen" display="none">  
+    <g transform="translate(25,25)">
+      <text class="details" id="tram_number" x="0%" y="10%">Tram ?</text>
+      <text class="details" id="departure" x="0%" y="40%">XX:XX</text>
+      <text class="details time-left" id="departure-time-left" x="45%" y="40%">XX:XX left</text>
+      <text class="details" id="arrival" x="0%" y="70%">XX:XX</text>
+    </g>
+  </svg>
+</svg>

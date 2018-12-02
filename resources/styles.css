@@ -1,0 +1,20 @@
+.background {
+  viewport-fill: #e91e63;
+}
+
+.details {  
+  font-family: 'Fabrikat-Black';
+  font-size: 45;
+}
+
+text {
+  font-size: 40;
+}
+
+#departure-time-left {
+  font-size: 32;
+}
+
+#result_screen {
+  display: none;
+}

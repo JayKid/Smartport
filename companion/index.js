@@ -1,8 +1,9 @@
 import * as messaging from "messaging";
+
 import { getValueFromSettingsFor } from "./settingsHelper.js";
 import { fetchConnections } from "./api.js";
-
 import { getHumanReadableTime } from '../common/utils.js';
+import { log } from '../common/logger.js'
 import * as ACTIONS from '../common/actions.js';
 
 const getStations = workToHome => {
@@ -19,16 +20,16 @@ const getStations = workToHome => {
 }
 
 messaging.peerSocket.onopen = function() {
-  console.log('Companion socket open');
+  log('Companion socket open');
   messaging.peerSocket.send({action: ACTIONS.ENABLE_SELECT_WAY_BUTTONS});
 }
 
 messaging.peerSocket.onmessage = async function(evt) {
-  console.log('companion received:');
-  console.log(JSON.stringify(evt.data));
+  log('companion received:');
+  log(JSON.stringify(evt.data));
   if (evt.data.action && evt.data.action === ACTIONS.START_DATA_FETCHING) {
-    console.log('fetching connections at');
-    console.log(evt.data.time);
+    log('fetching connections at');
+    log(evt.data.time);
     const stations = getStations(evt.data.workToHome);
     const firstPossibleConnection = await fetchConnections(evt.data.time, stations);
     messaging.peerSocket.send({

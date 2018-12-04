@@ -1,3 +1,5 @@
+import { log } from '../common/logger.js'
+
 const getRequestURL = (stations, humanReadableTime) => {
     const LIMIT = 6;
     const encodedFrom = encodeURIComponent(stations.from);
@@ -7,8 +9,8 @@ const getRequestURL = (stations, humanReadableTime) => {
 
 const fetchConnections = async (time, stations) => {
     const URL = getRequestURL(stations, time);
-    console.log('URL to be fetched');
-    console.log(URL);
+    log('URL to be fetched');
+    log(URL);
     try {
       const response = await fetch(URL, {
         headers: {
@@ -16,8 +18,8 @@ const fetchConnections = async (time, stations) => {
         },
       })
       response = await response.json();
-      console.log('companion says sending!');
-      console.log(JSON.stringify(response));
+      log('companion says sending!');
+      log(JSON.stringify(response));
       
       const firstPossibleConnection = response.connections.find(connection => {
         return new Date(connection.from.departure).valueOf() > new Date().valueOf()
@@ -26,7 +28,7 @@ const fetchConnections = async (time, stations) => {
       return firstPossibleConnection;
     }
     catch (error) {
-      console.log('error while fetching connections');
+      log('error while fetching connections');
       throw error;
     }
 };

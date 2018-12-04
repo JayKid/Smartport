@@ -2,11 +2,12 @@ import document from "document";
 import * as messaging from "messaging";
 
 import { getHumanReadableTime } from '../common/utils.js'
+import { log } from '../common/logger.js'
 import { bindPhysicalButtons, bindSelectWayButtons, refreshWithConnection, displayButtons, bindRefreshDataAfterSleep } from './UI.js';
 import * as ACTIONS from '../common/actions.js'
 
 messaging.peerSocket.onopen = () => {
-  console.log('App socket open');
+  log('App socket open');
   messaging.peerSocket.send('hi');
 }
 
@@ -20,7 +21,7 @@ messaging.peerSocket.onmessage = evt => {
 }
 
 messaging.peerSocket.onerror = err => {
-  console.log('socket error');
+  log('socket error');
 }
 
 const fetchAndShowConnection = workToHome => {
@@ -39,7 +40,7 @@ const refreshDataAfterSleep = _ => {
     // refresh data
   }
   else {
-    console.log('socket not available');
+    log('socket not available');
   }
 }
 

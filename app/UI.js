@@ -3,6 +3,7 @@ import { display } from "display";
 import { me } from "appbit";
 
 import { getHumanReadableTime } from '../common/utils.js'
+import { log } from '../common/logger.js'
 
 const SCREENS = {
   "SELECT_WAY": {
@@ -38,7 +39,7 @@ const navigateBack = () => {
     
     state.currentScreen = SCREENS.SELECT_WAY.id;
   } else {
-    console.log('exiting..')
+    log('exiting..')
     me.exit();    
   }
 };
@@ -88,7 +89,7 @@ const bindPhysicalButtons = () => {
       // Fetch next connection if in details
     }
     if( event.key === 'back') {
-      console.log('back pressed');
+      log('back pressed');
       navigateBack();
     } 
   }
@@ -116,7 +117,7 @@ const displayButtons = _ => {
 const bindRefreshDataAfterSleep = callback => {
   display.addEventListener('change', event => {
     if (display.on) {
-      console.log('refreshing after sleep');
+      log('refreshing after sleep');
       callback();
     }
   });

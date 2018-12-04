@@ -1,5 +1,5 @@
 import * as messaging from "messaging";
-import { settingsStorage } from "settings";
+import { getValueFromSettingsFor } from "./settingsHelper.js";
 
 import { getHumanReadableTime } from '../common/utils.js';
 import * as ACTIONS from '../common/actions.js';
@@ -16,18 +16,6 @@ messaging.peerSocket.onmessage = function(evt) {
     console.log('fetching connections at');
     console.log(evt.data.time);
     fetchConnections(evt.data.time, evt.data.workToHome)
-  }
-}
-
-// This function would be better located in commons/utils but that "module" doesn't have access to settings :(
-const getValueFromSettingsFor = (settingsKey, defaultValue) => {
-  const settingsJSON = settingsStorage.getItem(settingsKey);
-  try {
-    const setting = JSON.parse(settingsJSON);
-    return setting.name ? setting.name : defaultValue;
-  }
-  catch (error) {
-    return defaultValue;
   }
 }
 

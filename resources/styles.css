@@ -11,6 +11,10 @@ text {
   font-size: 40;
 }
 
+text {
+  fill: fb-black;
+}
+
 #departure-time-left {
   font-size: 32;
 }

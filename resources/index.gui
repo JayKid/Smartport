@@ -1,9 +1,9 @@
 <svg class="background">
   <svg id="select_way">
-    <use id="button_go_home" href="#square-button" y="20%" height="30%" fill="fb-red" display="none">
+    <use id="button_go_home" href="#square-button" y="20%" height="30%" fill="fb-black" display="none">
       <set href="#text" attributeName="text-buffer" to="Go home" />
     </use>
-    <use id="button_go_work" href="#square-button" y="$" height="30%" fill="fb-red" display="none">
+    <use id="button_go_work" href="#square-button" y="$" height="30%" fill="fb-black" display="none">
       <set href="#text" attributeName="text-buffer" to="Go to work" />
     </use>
   </svg>

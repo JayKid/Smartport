@@ -1,23 +1,9 @@
 import * as messaging from "messaging";
 import { getValueFromSettingsFor } from "./settingsHelper.js";
+import { fetchConnections } from "./api.js";
 
 import { getHumanReadableTime } from '../common/utils.js';
 import * as ACTIONS from '../common/actions.js';
-
-messaging.peerSocket.onopen = function() {
-  console.log('Companion socket open');
-  messaging.peerSocket.send({action: ACTIONS.ENABLE_SELECT_WAY_BUTTONS});
-}
-
-messaging.peerSocket.onmessage = function(evt) {
-  console.log('companion received:');
-  console.log(JSON.stringify(evt.data));
-  if (evt.data.action && evt.data.action === ACTIONS.START_DATA_FETCHING) {
-    console.log('fetching connections at');
-    console.log(evt.data.time);
-    fetchConnections(evt.data.time, evt.data.workToHome)
-  }
-}
 
 const getStations = workToHome => {
   const homeStation = getValueFromSettingsFor('home','Albisrieden');
@@ -32,33 +18,20 @@ const getStations = workToHome => {
   };
 }
 
-const getRequestURL = (stations, humanReadableTime) => {
-  const LIMIT = 6;
-  const encodedFrom = encodeURIComponent(stations.from);
-  const encodedTo = encodeURIComponent(stations.to);
-  return `https://transport.opendata.ch/v1/connections?from=${encodedFrom}&to=${encodedTo}&time=${humanReadableTime}&limit=${LIMIT}&fields[]=connections/from/departure&fields[]=connections/to/arrival&fields[]=connections/products`;
+messaging.peerSocket.onopen = function() {
+  console.log('Companion socket open');
+  messaging.peerSocket.send({action: ACTIONS.ENABLE_SELECT_WAY_BUTTONS});
 }
 
-const fetchConnections = async (time, workToHome) => {
-  const stations = getStations(workToHome);
-  const URL = getRequestURL(stations, time);
-  console.log('URL to be fetched');
-  console.log(URL);
-  try {
-    const response = await fetch(URL, {
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    })
-    response = await response.json();
-    console.log('companion says sending!');
-    console.log(JSON.stringify(response));
-    
-    const firstPossibleConnection = response.connections.find(connection => {
-      return new Date(connection.from.departure).valueOf() > new Date().valueOf()
-    });
-    
-    return messaging.peerSocket.send({
+messaging.peerSocket.onmessage = async function(evt) {
+  console.log('companion received:');
+  console.log(JSON.stringify(evt.data));
+  if (evt.data.action && evt.data.action === ACTIONS.START_DATA_FETCHING) {
+    console.log('fetching connections at');
+    console.log(evt.data.time);
+    const stations = getStations(evt.data.workToHome);
+    const firstPossibleConnection = await fetchConnections(evt.data.time, stations);
+    messaging.peerSocket.send({
       action: ACTIONS.DISPLAY_CONNECTION,
       payload: {
         tramNumber: firstPossibleConnection.products,
@@ -67,8 +40,4 @@ const fetchConnections = async (time, workToHome) => {
       }
     });
   }
-  catch (error) {
-    console.log('error while fetching connections');
-    throw error;
-  }
-};
+}

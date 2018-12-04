@@ -115,10 +115,11 @@ const displayButtons = _ => {
 }
 
 const bindRefreshDataAfterSleep = callback => {
-  display.addEventListener('change', event => {
+  display.addEventListener('change', _ => {
     if (display.on) {
       log('refreshing after sleep');
-      callback();
+      callback(); // <-- Re-fetch data here, even though I think since the new SDK update
+      // apps get killed faster when closed so there might not be a case for it
     }
   });
 }

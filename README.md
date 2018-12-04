@@ -13,3 +13,26 @@ That being said, there are some limitations the platform imposes that impact the
 Nonetheless, I love the fact that these few files already _are_ the whole app versus other mobile apps I've done in Android and iOS where the boilerplate and environment are huge when you compare them to the simplicity of developing for the Versa <3
 
 P.S.: Sorry about the console logs scattered across all files. It's not possible yet to debug per se, and the only hint you have is logging _all the things_ :P
+
+
+## How to run
+
+1. _Install CLI dependencies_
+
+`npm install`
+
+2. _Run simulator (install Fitbit simulator)_
+
+3. _Start Fitbit CLI tool_
+
+`npx fitbit`
+
+4. _Build app_
+
+(when in Fitbit CLI shell identified by **`fitbit$`**)
+
+`fitbit$ build`
+
+5. _Install and run in simulator_
+
+`fitbit$ install`
